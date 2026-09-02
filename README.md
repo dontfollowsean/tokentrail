@@ -56,7 +56,7 @@ tokentrail scan [--repo <path>] [--storage <path>]
 
 - `--repo <path>` — repo to attribute usage to (default: current directory). Log adapters filter their
   source logs down to entries recorded while working in this path.
-- `--storage <path>` — path to the usage file (default: `./.token-usage.json`).
+- `--storage <path>` — path to the usage file (default: `<repo>/.token-usage.json`).
 
 v1 ships one adapter: **Claude Code**, which reads `~/.claude/projects/**/*.jsonl` transcripts and sums the
 `usage` block the Anthropic Messages API attaches to each assistant turn (input, output, and cache
@@ -68,7 +68,7 @@ The fallback collection path — for any harness, CI hook, or human that has no 
 Adds to a running manual total per agent; does not overwrite it.
 
 ```sh
-tokentrail add --agent <name> --tokens <n> [--provider <name>] [--storage <path>]
+tokentrail add --agent <name> --tokens <n> [--provider <name>] [--repo <path>] [--storage <path>]
 ```
 
 - `--agent <name>` — agent identifier, e.g. `codex`, `cursor`, `claude-code`. Free-form; not validated
@@ -76,11 +76,17 @@ tokentrail add --agent <name> --tokens <n> [--provider <name>] [--storage <path>
 - `--tokens <n>` — token count to add (non-negative integer).
 - `--provider <name>` — optional provider label (e.g. `anthropic`, `openai`), recorded for a possible future
   cost-estimate feature. Not used for anything in v1.
-- `--storage <path>` — path to the usage file (default: `./.token-usage.json`).
+- `--repo <path>` — repo the usage file lives in (default: current directory). Only used to resolve the
+  default `--storage` path; ignored if `--storage` is passed explicitly.
+- `--storage <path>` — path to the usage file (default: `<repo>/.token-usage.json`).
 
 ### `tokentrail show`
 
 Prints a summary table of `.token-usage.json`. Pass `--json` for the raw file contents.
+
+```sh
+tokentrail show [--repo <path>] [--storage <path>] [--json]
+```
 
 ### `tokentrail badge`
 
@@ -88,7 +94,7 @@ Renders a self-contained SVG badge from `.token-usage.json`. This is what the Gi
 can also run it locally to preview the badge.
 
 ```sh
-tokentrail badge [--storage <path>] [--out <path>]
+tokentrail badge [--repo <path>] [--storage <path>] [--out <path>]
 ```
 
 ## Storage: `.token-usage.json`
