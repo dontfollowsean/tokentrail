@@ -1,0 +1,48 @@
+{
+  "name": "tokentrail",
+  "version": "0.1.0",
+  "description": "Track cumulative coding-agent token usage per repo, across any harness (Claude Code, Codex, Cursor, Grok, Kimi, etc.), with a live README badge.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "tokentrail": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli.ts",
+    "test": "vitest run",
+    "lint": "tsc --noEmit -p tsconfig.json",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "cli",
+    "tokens",
+    "llm",
+    "claude-code",
+    "coding-agent",
+    "badge",
+    "github-action"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dontfollowsean/tokentrail"
+  },
+  "author": "Sean Wilkinson",
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.11"
+  }
+}
