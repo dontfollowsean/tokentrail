@@ -20,6 +20,12 @@ describe("formatCount", () => {
   it("formats millions", () => {
     expect(formatCount(4200000)).toBe("4.2M");
   });
+
+  it("bumps to the next unit when rounding hits the boundary", () => {
+    expect(formatCount(999500)).toBe("1.0M");
+    expect(formatCount(999999)).toBe("1.0M");
+    expect(formatCount(999499)).toBe("999k");
+  });
 });
 
 describe("renderBadgeSvg", () => {
