@@ -3,7 +3,10 @@ import type { UsageStore } from "./types.js";
 /** Renders large token counts the way GitHub-style badges do: 12345 -> 12.3k, 4200000 -> 4.2M. */
 export function formatCount(n: number): string {
   if (n < 1000) return String(n);
-  if (n < 1_000_000) return `${(n / 1000).toFixed(n < 10_000 ? 1 : 0)}k`;
+  if (n < 1_000_000) {
+    const k = (n / 1000).toFixed(n < 10_000 ? 1 : 0);
+    if (Number(k) < 1000) return `${k}k`;
+  }
   return `${(n / 1_000_000).toFixed(n < 10_000_000 ? 1 : 0)}M`;
 }
 
