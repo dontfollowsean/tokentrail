@@ -20,7 +20,7 @@ program
     `Parse local session logs for known agents (currently: Claude Code) and rebuild parsed totals in ${STORAGE_FILENAME}.`,
   )
   .option("--repo <path>", "repo path to attribute usage to", process.cwd())
-  .option("--storage <path>", `path to the usage file (default: ./${STORAGE_FILENAME})`)
+  .option("--storage <path>", `path to the usage file (default: <repo>/${STORAGE_FILENAME})`)
   .option("--quiet", "suppress output", false)
   .action(async (opts: { repo: string; storage?: string; quiet: boolean }) => {
     const repoPath = resolve(opts.repo);
