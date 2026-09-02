@@ -1,0 +1,40 @@
+name: tokentrail badge
+
+# Copy this file into the repo that has adopted tokentrail (as
+# .github/workflows/tokentrail-badge.yml). It regenerates the token-usage
+# badge from .token-usage.json every time that file changes on main, and
+# commits the refreshed SVG back into the repo.
+#
+# See README.md "Badge setup" for the full wiring instructions, including
+# the <img> tag to add to this repo's own README.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".token-usage.json"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  badge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate badge SVG
+        run: npx --yes tokentrail badge --storage ./.token-usage.json --out ./tokentrail-badge.svg
+
+      - name: Commit badge if changed
+        run: |
+          if git diff --quiet -- tokentrail-badge.svg; then
+            echo "Badge unchanged, nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add tokentrail-badge.svg
+          git commit -m "chore: update tokentrail badge [skip ci]"
+          git push
